@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { registerUser } from '../services/UserBackend';
+import { loginUser, registerUser } from '../services/UserBackend';
 
 export const AuthContext = createContext();
 export default function Auth({ children }) {
@@ -15,6 +15,13 @@ export default function Auth({ children }) {
         id: newUser.id,
         username: newUser.username,
         password: newUser.password
+      }));
+    },
+
+    async loginUser({username, password}) {
+      const login = await authenticateUser({username, password});
+      setUserConnected(({
+        token: login.token
       }));
     }
   }
