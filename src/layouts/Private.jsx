@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-export default function Private({ user }) {
+export default function Private() {
   return (
     <div>
       <Outlet />

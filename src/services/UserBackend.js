@@ -6,5 +6,15 @@ export const registerUser = async ({username, password}) => {
         },
         body: JSON.stringify({username, password})
     });
+    if (!resp.ok) throw new Error('User already exists');
     return resp.json();
 }
+
+// registerUser({username: 'alexisamadei', password: 'aled'}).then(console.log);
+// { error: 'User already exists' }
+// {
+//   _id: 'd6bb94d2-01c0-4b1e-b739-7f15145160ad',
+//   username: 'alexisamadei',
+//   password: 'aled',
+//   __v: 0
+//  }
