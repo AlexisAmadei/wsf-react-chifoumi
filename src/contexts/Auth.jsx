@@ -19,14 +19,14 @@ export default function Auth({ children }) {
     },
 
     async loginUser({username, password}) {
-      const login = await authenticateUser({username, password});
+      const login = await loginUser({username, password});
       setUserConnected(({
         token: login.token
       }));
     }
   }
   return (
-    <AuthContext.Provider>
+    <AuthContext.Provider value={{userConnected, actions}}>
       {children}
     </AuthContext.Provider>
   )
