@@ -18,15 +18,16 @@ export default function Auth({ children }) {
       });
       localStorage.setItem('userConnected', JSON.stringify(newUser));
     },
-    async loginUser({username, password}) {
-      const login = await loginUser({username, password});
+    async loginUser({ username, password }) {
+      const login = await loginUser({ username, password });
       setUserConnected(({
         token: login.token
       }));
+      localStorage.setItem('userConnected', JSON.stringify(login));
     }
   }
   return (
-    <AuthContext.Provider value={{userConnected, actions}}>
+    <AuthContext.Provider value={{ userConnected, actions }}>
       {children}
     </AuthContext.Provider>
   )

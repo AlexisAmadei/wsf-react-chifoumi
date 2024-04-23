@@ -18,6 +18,7 @@ export default function Register() {
     } else {
       try {
         await actions.registerUser({ username, password });
+        setError(null);
       } catch (error) {
         setError(error.message);
       }
