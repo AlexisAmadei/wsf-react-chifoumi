@@ -1,3 +1,4 @@
+import './styles/Register.css'
 import React, { useContext, useState } from 'react'
 
 import { AuthContext } from '../contexts/Auth'
@@ -12,7 +13,7 @@ export default function Register() {
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
     if (password !== confirmPassword) {
-      console.error('Passwords do not match')
+      setError('Passwords do not match');
       return;
     } else {
       try {
@@ -23,13 +24,16 @@ export default function Register() {
     }
   }
   return (
-    <div>
+    <div className="register-container">
       <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="register-form" onSubmit={handleSubmit}>
         <input type="text" name="username" placeholder="Username" />
         <input type="password" name="password" placeholder="Password" />
         <input type='password' name='confirmPassword' placeholder='Confirm Password' />
-        <button type="submit">Register</button>
+        <div>
+          <button onClick={() => window.location.href = '/'}>Retour</button>
+          <button type="submit">Register</button>
+        </div>
       </form>
       {error && <p>{error}</p>}
     </div>
