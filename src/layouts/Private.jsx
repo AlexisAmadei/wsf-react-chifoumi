@@ -20,7 +20,7 @@ export default function Private() {
   useEffect(() => {
     const user = localStorage.getItem('userConnected');
     if (!user) {
-      navigate('/security/login');
+      navigate('/');
     }
   }, [userConnected]);
   return (
