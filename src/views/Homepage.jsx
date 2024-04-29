@@ -14,6 +14,7 @@ export default function Homepage() {
   function handleRefresh() {
     getMatches().then((matches) => {
       setMatchList(matches);
+      console.log(matches);
     });
   }
   return (
@@ -26,6 +27,9 @@ export default function Homepage() {
         <button onClick={handleRefresh}>Refresh matches</button>
       )}
       <div className="match-list">
+        {matchList.length === 0 && (
+          <p>No matches found</p>
+        )}
         {matchList.length > 0 && (
           <ul className="match-div">
             {matchList.map((match) => (
