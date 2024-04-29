@@ -1,15 +1,12 @@
-import './styles/App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-
 import Landing from './views/Landing'
 import Register from './views/Register'
 import Login from './views/Login'
 import Homepage from './views/Homepage'
-
 import Security from './layouts/Security'
 import Private from './layouts/Private'
-
 import AuthProvider from './contexts/Auth'
+import './styles/App.css'
 
 function App() {
   return (

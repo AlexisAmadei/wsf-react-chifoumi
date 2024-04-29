@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../contexts/Auth'
 import { useNavigate } from 'react-router-dom'
-import Homepage from './Homepage'
+import { Button, TextField } from '@mui/material';
+import './styles/Login.css'
 
 export default function Login() {
-  const { userConnected, actions } = useContext(AuthContext);
+  const { actions } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -12,10 +13,6 @@ export default function Login() {
     e.preventDefault();
     const username = e.target.username.value
     const password = e.target.password.value
-
-
-    console.log(username, password)
-
     try {
       await actions.loginUser({ username, password });
       navigate('/private/homepage')
@@ -26,11 +23,26 @@ export default function Login() {
   }
 
   return (
-    <div>
+    <div className='login-wrapper'>
       <form onSubmit={handleSubmit}>
-        <input type='text' name='username' placeholder='username' />
-        <input type='password' name='password' placeholder='password' />
-        <button type='submit'>Login</button>
+        <p onClick={() => navigate('/')} style={{margin:'0', padding:'0', textAlign:'left', cursor:'pointer', width:'fit-content'}}>&larr; Retour</p>
+        <TextField
+          id="username"
+          label="Username"
+          variant="outlined"
+          type="text"
+          name="username"
+          required
+        />
+        <TextField
+          id="password"
+          label="Password"
+          variant="outlined"
+          type="password"
+          name="password"
+          required
+        />
+        <Button type="submit" variant="contained">Login</Button>
       </form>
       {error && <p>{error}</p>}
     </div>

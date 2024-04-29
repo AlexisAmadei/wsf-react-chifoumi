@@ -1,12 +1,11 @@
-import './styles/Register.css'
 import React, { useContext, useState } from 'react'
-
 import { AuthContext } from '../contexts/Auth'
 import { useNavigate } from 'react-router-dom';
-import Login from './Login';
+import { Button, TextField } from '@mui/material';
+import './styles/Register.css'
 
 export default function Register() {
-  const { userConnected, actions } = useContext(AuthContext);
+  const { actions } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -21,7 +20,6 @@ export default function Register() {
     } else {
       try {
         await actions.registerUser({ username, password });
-        // timeout to notify user of successful registration
         setError('User registered successfully ! Redirecting to login page...');
         setTimeout(() => {
           navigate('/security/login');
@@ -32,16 +30,34 @@ export default function Register() {
     }
   }
   return (
-    <div className="register-container">
-      <h1>Register</h1>
-      <form className="register-form" onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username" />
-        <input type="password" name="password" placeholder="Password" />
-        <input type='password' name='confirmPassword' placeholder='Confirm Password' />
-        <div>
-          <button onClick={() => window.location.href = '/'}>Retour</button>
-          <button type="submit">Register</button>
-        </div>
+    <div className="register-wrapper">
+      <form onSubmit={handleSubmit}>
+        <p onClick={() => navigate('/')} style={{margin:'0', padding:'0', textAlign:'left', cursor:'pointer', width:'fit-content'}}>&larr; Retour</p>
+        <TextField
+          id="username"
+          label="Username"
+          variant="outlined"
+          type="text"
+          name="username"
+          required
+        />
+        <TextField
+          id="password"
+          label="Password"
+          variant="outlined"
+          type="password"
+          name="password"
+          required
+        />
+        <TextField
+          id="confirmPassword"
+          label="Confirm Password"
+          variant="outlined"
+          type="password"
+          name="confirmPassword"
+          required
+        />
+        <Button type="submit" variant="contained">Register</Button>
       </form>
       {error && <p>{error}</p>}
     </div>

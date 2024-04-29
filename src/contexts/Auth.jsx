@@ -29,7 +29,11 @@ export default function Auth({ children }) {
         token: login.token,
         username: username,
       }));
-    }
+    },
+    async logoutUser() {
+      setUserConnected(null);
+      localStorage.removeItem('userConnected');
+    },
   }
   return (
     <AuthContext.Provider value={{ userConnected, actions }}>
