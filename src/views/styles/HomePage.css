@@ -11,22 +11,39 @@
     font-style: italic;
 }
 
-.match-div {
+.match-list {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.match-item {
     border: 1px solid black;
     border-radius: 10px;
     padding: 0 12px;
-    margin: 22px;
+    margin: 10px 22px;
 }
 
-.homepage-wrapper ul {
+.players {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    line-height: 1;
+    gap: 24px;
 }
 
-.homepage-wrapper li {
-    list-style-type: none;
-    margin: 10px;
+.players p {
+    width: 30%;
+    text-overflow: clip;
+}
+
+.game-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+button:disabled {
+    background-color: #f0f0f0;
+    color: #c0c0c0;
+    cursor: not-allowed;
 }

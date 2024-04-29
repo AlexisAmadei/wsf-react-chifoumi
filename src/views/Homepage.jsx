@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { NewMatch } from "../services/NewMatch";
 import { getMatches } from "../services/getMatches";
+import { LuSwords } from "react-icons/lu";
 import './styles/HomePage.css';
 
 export default function Homepage() {
   const [userConnected, setUserConnected] = useState({ token: '', username: '' });
   const [matchList, setMatchList] = useState([]);
+  const [allowCreateMatch, setAllowCreateMatch] = useState(false);
+
   function handleRefresh() {
     getMatches().then((matches) => {
       setMatchList(matches);
-      console.log(matches);
     });
   }
   useEffect(() => {
@@ -19,30 +21,46 @@ export default function Homepage() {
   const handleNewMatchClick = () => {
     NewMatch();
   };
+  useEffect(() => {
+    matchList.forEach(match => {
+      if (match.user2 === '') {
+        setAllowCreateMatch(false);
+      } else {
+        setAllowCreateMatch(true);
+      }
+    });
+  }, [matchList])
   return (
     <div className="homepage-wrapper">
-    <button onClick={handleNewMatchClick}>Nouvelle partie</button>
       <p>Welcome <span>{userConnected.username}</span> !</p>
-      {matchList.length === 0 && (
-        <button onClick={handleRefresh}>Find matches</button>
-      )}
-      {matchList.length > 0 && (
+      <div className="game-buttons">
         <button onClick={handleRefresh}>Refresh matches</button>
-      )}
+        <button
+          disabled={allowCreateMatch ? true : false}
+          onClick={handleNewMatchClick}
+        >New Game</button>
+      </div>
       <div className="match-list">
         {matchList.length === 0 && (
           <p>No matches found</p>
         )}
         {matchList.length > 0 && (
-          <ul className="match-div">
-            {matchList.map((match) => (
-              <li key={match._id} className="match-item">
-                <p>Match ID: {match._id}</p>
+          matchList.map((match) => (
+            <div key={match._id} className="match-item">
+              <p style={{ textAlign:'center'}}>Match ID: {match._id}</p>
+              <div className="players">
                 <p>Player 1: {match.user1.username}</p>
-                <p>Player 2: {match.user2 ? match.user2.username : 'Waiting for player 2'}</p>
-              </li>
-            ))}
-          </ul>
+                <LuSwords
+                  style={{
+                    width: '30px',
+                    height: '30px',
+                    margin: '0 10px',
+                  }}
+                />
+                 <p>Player 2: {match.user2 ? match.user2.username : 'Waiting player...'}</p>
+              </div>
+            </div>
+          ))
         )}
       </div>
     </div>
