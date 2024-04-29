@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import AppBar from "../components/AppBar/AppBar";
 import { AuthContext } from "../contexts/Auth";
+import AppBar from "../components/AppBar/AppBar";
 
 const homepageStyles = {
   display: "flex",

@@ -10,7 +10,6 @@ export default function Homepage() {
     const user = JSON.parse(localStorage.getItem('userConnected'));
     setUserConnected(user);
   }, []);
-
   function handleRefresh() {
     getMatches().then((matches) => {
       setMatchList(matches);

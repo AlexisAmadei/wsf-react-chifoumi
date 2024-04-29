@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../contexts/Auth'
 import { useNavigate } from 'react-router-dom'
-import './styles/Login.css'
 import { Button, TextField } from '@mui/material';
-
+import './styles/Login.css'
 
 export default function Login() {
   const { actions } = useContext(AuthContext);
@@ -14,10 +13,6 @@ export default function Login() {
     e.preventDefault();
     const username = e.target.username.value
     const password = e.target.password.value
-
-
-    console.log(username, password)
-
     try {
       await actions.loginUser({ username, password });
       navigate('/private/homepage')
