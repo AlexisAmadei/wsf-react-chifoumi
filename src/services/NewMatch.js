@@ -9,8 +9,8 @@ export const NewMatch = async () => {
             "Authorization": `Bearer ${userConnected.token}`
         },
     });
-    if (!resp.ok) {
-        throw new Error(`Erreur HTTP: ${resp.status}`);
-    }
+    // if (!resp.ok) {
+    //     throw new Error(`Erreur HTTP: ${resp.status}`);
+    // }
     return resp.json();
 }
