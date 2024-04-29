@@ -20,10 +20,15 @@ export default function Auth({ children }) {
     },
     async loginUser({ username, password }) {
       const login = await loginUser({ username, password });
-      setUserConnected(({
-        token: login.token
+      setUserConnected((prevState) => ({
+        ...prevState,
+        token: login.token,
+        username: username,
       }));
-      localStorage.setItem('userConnected', JSON.stringify(login));
+      localStorage.setItem('userConnected', JSON.stringify({
+        token: login.token,
+        username: username,
+      }));
     }
   }
   return (
