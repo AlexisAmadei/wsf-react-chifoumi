@@ -1,6 +1,7 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import AppBar from "../components/AppBar/AppBar";
+import { AuthContext } from "../contexts/Auth";
 
 const homepageStyles = {
   display: "flex",
@@ -13,6 +14,15 @@ const homepageStyles = {
 };
 
 export default function Private() {
+  const { userConnected } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem('userConnected');
+    if (!user) {
+      navigate('/security/login');
+    }
+  }, [userConnected]);
   return (
     <div className="homepage-wrapper" style={homepageStyles}>
       <AppBar />
