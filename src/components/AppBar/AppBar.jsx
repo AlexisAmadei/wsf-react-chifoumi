@@ -12,7 +12,7 @@ export default function AppBar() {
   }
   return (
     <div className="appBar">
-      <h1>Chifoufeuille</h1>
+      <h1>ShiFooFeuille</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   )
