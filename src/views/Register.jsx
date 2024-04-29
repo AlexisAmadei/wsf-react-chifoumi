@@ -2,10 +2,13 @@ import './styles/Register.css'
 import React, { useContext, useState } from 'react'
 
 import { AuthContext } from '../contexts/Auth'
+import { useNavigate } from 'react-router-dom';
+import Login from './Login';
 
 export default function Register() {
   const { userConnected, actions } = useContext(AuthContext);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +21,11 @@ export default function Register() {
     } else {
       try {
         await actions.registerUser({ username, password });
-        setError(null);
+        // timeout to notify user of successful registration
+        setError('User registered successfully ! Redirecting to login page...');
+        setTimeout(() => {
+          navigate('/security/login');
+        }, 2000);
       } catch (error) {
         setError(error.message);
       }
