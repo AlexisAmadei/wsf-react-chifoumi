@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { NewMatch } from "../services/NewMatch";
 import { getMatches } from "../services/getMatches";
 import './styles/HomePage.css';
 
 export default function Homepage() {
   const [userConnected, setUserConnected] = useState({ token: '', username: '' });
   const [matchList, setMatchList] = useState([]);
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('userConnected'));
-    setUserConnected(user);
-  }, []);
   function handleRefresh() {
     getMatches().then((matches) => {
       setMatchList(matches);
       console.log(matches);
     });
   }
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('userConnected'));
+    setUserConnected(user);
+  }, []);
+  const handleNewMatchClick = () => {
+    NewMatch();
+  };
   return (
     <div className="homepage-wrapper">
+    <button onClick={handleNewMatchClick}>Nouvelle partie</button>
       <p>Welcome <span>{userConnected.username}</span> !</p>
       {matchList.length === 0 && (
         <button onClick={handleRefresh}>Find matches</button>
