@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Landing from './views/Landing'
 import Register from './views/Register'
 import Login from './views/Login'
+import Homepage from './views/Homepage'
 
 import Security from './layouts/Security'
 import Private from './layouts/Private'
@@ -21,7 +22,7 @@ function App() {
             <Route path="register" element={<Register />} />
           </Route>
           <Route path='/private' element={<Private />} >
-            <Route path='*' element={<div>Match list</div>} />
+            <Route path='homepage' element={<Homepage />} />
           </Route>
         </Routes>
       </BrowserRouter>
