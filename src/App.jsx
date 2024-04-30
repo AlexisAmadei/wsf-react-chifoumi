@@ -10,20 +10,23 @@ import './styles/App.css'
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/security" element={<Security />} >
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-          </Route>
-          <Route path='/private' element={<Private />} >
-            <Route path='homepage' element={<Homepage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <div className='app-wrapper'>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/security" element={<Security />} >
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
+            <Route path='/private' element={<Private />} >
+              <Route path='homepage' element={<Homepage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+
+    </div>
   )
 }
 

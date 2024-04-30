@@ -7,7 +7,6 @@ export default function landing() {
 
   return (
     <div className='landing-wrapper'>
-      {/* <h1>{`Shi{Foo}Feuille`}</h1> */}
       <h1>Shi<span style={{ color: '#646cff'}}>{`{Foo}`}</span>Feuille</h1>
       <div className='button-container'>
         <button title='register' onClick={() => navigate('security/register')}>Register</button>
