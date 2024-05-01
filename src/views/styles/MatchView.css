@@ -1,0 +1,104 @@
+.matchView-wrapper {
+    border-radius: 20px;
+    box-shadow: 20px 20px 60px #d1d1d1, -20px -20px 60px #ffffff;
+    width: 80%;
+    margin: 20px 10px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.matchView-wrapper h1 {
+    font-size: 40px;
+}
+
+.game-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 24px;
+
+}
+
+.game-card {
+    border-radius: 20px;
+    box-shadow: 10px 10px 60px #d1d1d1, -10px -10px 60px #ffffff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 8px 16px;
+
+    transition: all 0.3s;
+}
+
+.game-card.selected {
+    background-color: #4EF24E;
+    transform: scale(1.1);
+}
+
+.game-card.selected:hover {
+    background-color: #4EF24E;
+}
+
+.game-card:hover {
+    cursor: pointer;
+    background-color: #646cff;
+    transform: scale(1.1);
+}
+
+.game-card p {
+    font-size: 80px;
+    margin: 0;
+    padding: 8px;
+}
+
+button#confirmChoice,
+button#noChoice {
+    transition: all 0.3s;
+    font-weight: 700;
+    margin: 10px;
+}
+
+button#confirmChoice:hover {
+    background-color: #4EF24E !important;
+}
+
+button#noChoice:hover {
+    background-color: #d51434;
+}
+
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+button#noChoice:focus {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both normal;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+
+.game-card .fade-out {
+    animation: fadeOut 0.5s;
+}

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { newMatch } from "../services/newMatch";
-import { getMatches } from "../services/getMatches";
+import React, { useContext, useEffect, useState } from "react";
+import { getMatches, newMatch } from "../services/MatchesBackend";
 import { LuSwords } from "react-icons/lu";
 import './styles/HomePage.css';
 import { useNavigate } from "react-router-dom";
@@ -18,17 +17,26 @@ export default function Homepage() {
   }, []);
 
   function handleRefresh() {
-    getMatches().then((matches) => {
-      setMatchList(matches);
-    });
+    if (!localStorage.getItem('matchList')) {
+      getMatches().then((matches) => {
+        setMatchList(matches);
+        localStorage.setItem('matchList', JSON.stringify(matches));
+      });
+    } else {
+      setMatchList(JSON.parse(localStorage.getItem('matchList')));
+    }
   }
 
   useEffect(() => {
-    matchList.forEach(match => {
-      if (match.user2 === null) {
-        setAllowCreateMatch(false);
-      }
-    });
+    if (matchList.length === 0) {
+      setAllowCreateMatch(true);
+    } else {
+      matchList.forEach(match => {
+        if (match.user2 === null) {
+          setAllowCreateMatch(false);
+        }
+      });
+    }
   }, [matchList])
 
   function handlenewMatch() {
