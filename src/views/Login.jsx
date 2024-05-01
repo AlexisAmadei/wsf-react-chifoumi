@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../contexts/Auth'
 import { useNavigate } from 'react-router-dom'
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import './styles/Login.css'
+import TextInput from '../components/TextInput/TextInput';
 
 export default function Login() {
   const { actions } = useContext(AuthContext);
@@ -25,24 +26,24 @@ export default function Login() {
   return (
     <div className='login-wrapper'>
       <form onSubmit={handleSubmit}>
-        <p onClick={() => navigate('/')} style={{margin:'0', padding:'0', textAlign:'left', cursor:'pointer', width:'fit-content'}}>&larr; Retour</p>
-        <TextField
-          id="username"
-          label="Username"
-          variant="outlined"
-          type="text"
+        <p onClick={() => navigate('/')} style={{ margin: '0', padding: '0', textAlign: 'left', cursor: 'pointer', width: 'fit-content' }}>&larr; Retour</p>
+        <TextInput
+          type='text'
+          required={true}
+          title="username"
           name="username"
-          required
+          placeholder="Username"
+          autoComplete={'off'}
         />
-        <TextField
-          id="password"
-          label="Password"
-          variant="outlined"
+        <TextInput
           type="password"
+          required={true}
+          title="password"
           name="password"
-          required
+          placeholder="Password"
         />
-        <Button type="submit" variant="contained">Login</Button>
+        <Button type="submit" variant="contained" className='mui-button'
+          classes={{ root: 'login-button' }}>Login</Button>
       </form>
       {error && <p>{error}</p>}
     </div>

@@ -3,6 +3,7 @@ import { AuthContext } from '../contexts/Auth'
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import './styles/Register.css'
+import TextInput from '../components/TextInput/TextInput';
 
 export default function Register() {
   const { actions } = useContext(AuthContext);
@@ -33,31 +34,28 @@ export default function Register() {
     <div className="register-wrapper">
       <form onSubmit={handleSubmit}>
         <p onClick={() => navigate('/')} style={{margin:'0', padding:'0', textAlign:'left', cursor:'pointer', width:'fit-content'}}>&larr; Retour</p>
-        <TextField
-          id="username"
-          label="Username"
-          variant="outlined"
-          type="text"
+        <TextInput
+          type='text'
+          required={true}
+          title="username"
           name="username"
-          required
+          placeholder="Username"
         />
-        <TextField
-          id="password"
-          label="Password"
-          variant="outlined"
+        <TextInput
           type="password"
+          required={true}
+          title="password"
           name="password"
-          required
+          placeholder="Password"
         />
-        <TextField
-          id="confirmPassword"
-          label="Confirm Password"
-          variant="outlined"
+        <TextInput
           type="password"
+          required={true}
+          title="confirmPassword"
           name="confirmPassword"
-          required
+          placeholder="Confirm Password"
         />
-        <Button type="submit" variant="contained">Register</Button>
+        <Button type="submit" variant="contained" classes={{ root:'login-button'}}>Register</Button>
       </form>
       {error && <p>{error}</p>}
     </div>
