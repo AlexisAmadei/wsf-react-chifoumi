@@ -1,6 +1,4 @@
-
-
-export const NewMatch = async () => {
+export const newMatch = async () => {
     const userConnected = JSON.parse(localStorage.getItem('userConnected'));
     const resp = await fetch("http://fauques.freeboxos.fr:3000/matches", {
         method: "POST",
@@ -8,9 +6,11 @@ export const NewMatch = async () => {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${userConnected.token}`
         },
+    }).catch((error) => {
+        throw new Error(error);
     });
-    // if (!resp.ok) {
-    //     throw new Error(`Erreur HTTP: ${resp.status}`);
-    // }
+    if (resp.status === 400) {
+        throw new Error('User already has an active match');
+    }
     return resp.json();
 }

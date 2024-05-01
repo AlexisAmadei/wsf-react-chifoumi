@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NewMatch } from "../services/NewMatch";
+import { newMatch } from "../services/newMatch";
 import { getMatches } from "../services/getMatches";
 import { LuSwords } from "react-icons/lu";
 import './styles/HomePage.css';
@@ -31,9 +31,10 @@ export default function Homepage() {
     });
   }, [matchList])
 
-  function handleNewMatchClick() {
-    NewMatch();
-    handleRefresh();
+  function handlenewMatch() {
+    newMatch().then(handleRefresh()).catch((error) => {
+      console.error('fetch() =>', error.message);
+    });
   };
 
   function handleMatchSelect(matchId) {
@@ -47,7 +48,7 @@ export default function Homepage() {
         <button onClick={handleRefresh}>Refresh matches</button>
         <button
           disabled={!allowCreateMatch}
-          onClick={handleNewMatchClick}
+          onClick={handlenewMatch}
         >New Game</button>
       </div>
       <div className="match-list">
