@@ -1,0 +1,18 @@
+.error-display {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+p, #try-again {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+#try-again {
+    cursor: pointer;
+}
