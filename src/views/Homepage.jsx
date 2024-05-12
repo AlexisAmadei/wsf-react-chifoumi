@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { NewMatch } from "../services/NewMatch";
-import { getMatches } from "../services/getMatches";
+import { getMatches, newMatch } from "../services/MatchesBackend";
 import { LuSwords } from "react-icons/lu";
 import { CircularProgress } from "@mui/material";
 import './styles/HomePage.css';
+import { useNavigate } from "react-router-dom";
 
 export default function Homepage() {
   const [userConnected, setUserConnected] = useState({ token: '', username: '' });
   const [matchList, setMatchList] = useState([]);
   const [allowCreateMatch, setAllowCreateMatch] = useState(false);
   const [matchLoad, setMatchLoad] = useState(true);
+  const navigate = useNavigate();
 
   function handleRefresh() {
     getMatches().then((matches) => {
@@ -18,25 +19,31 @@ export default function Homepage() {
     });
   }
 
-  useEffect(() => { // Run once won mount
+  useEffect(() => {
     const user = JSON.parse(localStorage.getItem('userConnected'));
     setUserConnected(user);
     handleRefresh();
   }, []);
 
   const handleNewMatchClick = () => {
-    NewMatch();
+    newMatch();
   };
 
   useEffect(() => {
-    matchList.forEach(match => {
-      if (match.user2 === '') {
-        setAllowCreateMatch(false);
-      } else {
-        setAllowCreateMatch(true);
-      }
-    });
+    if (matchList.length === 0) {
+      setAllowCreateMatch(true);
+    } else {
+      matchList.forEach(match => {
+        if (match.user2 === null) {
+          setAllowCreateMatch(false);
+        }
+      });
+    }
   }, [matchList])
+
+  function handleMatchSelect(matchId) {
+    navigate('/private/match/' + matchId)
+  }
 
   return (
     <div className="homepage-wrapper">
@@ -57,8 +64,7 @@ export default function Homepage() {
             )}
             {matchList.length > 0 && (
               matchList.map((match) => (
-                <div key={match._id} className="match-item">
-                  {/* <p>Match ID: {match._id}</p> */}
+                <div key={match._id} className="match-item" onClick={() => handleMatchSelect(match._id)}>
                   <div className="players">
                     <p>Player 1: {match.user1.username}</p>
                     <LuSwords
