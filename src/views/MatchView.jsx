@@ -5,51 +5,74 @@ import { MatchContext } from '../contexts/Match';
 
 export default function MatchView() {
   const userConnected = JSON.parse(localStorage.getItem('userConnected'));
-  const { matchId } = useContext(MatchContext);
+  const { matchId, actions } = useContext(MatchContext);
 
   const [selected, setSelected] = useState(false)
   const [confirmedChoice, setConfirmedChoice] = useState(false);
-
-  // matches state
-  const [matchList, setMatchList] = useState([]);
   const [currentMatch, setCurrentMatch] = useState({});
 
-  const [opponent, setOpponent] = useState('undefined');
   const [turns, setTurns] = useState([]); // [turn1, turn2, ...]
+  const [turnStatus, setTurnStatus] = useState('waiting');
+
+  const [players, setPlayers] = useState({
+    player1: '',
+    player2: '',
+  });
+
+  function setPlayer1Player2() {
+    if (currentMatch.user1?.username === userConnected?.username) {
+      setPlayers({
+        player1: userConnected.username,
+        player2: currentMatch.user2?.username,
+      });
+    } else {
+      setPlayers({
+        player1: currentMatch.user1?.username,
+        player2: userConnected.username,
+      });
+    }
+  }
+
+  function defineTurnStatus() {
+    const user = userConnected.username;
+    const opponent = user === players.player1 ? players.player2 : players.player1;
+    const currentTurn = turns[turns.length - 1];
+
+    if (turns.length === 0) {
+      setTurnStatus('no turns yet');
+    }
+    if (currentMatch.user1.username === user) {
+      if (currentTurn.user2 === '?') {
+        setTurnStatus('your turn');
+      } else if (currentTurn.user1 && !currentTurn.user2) {
+        setTurnStatus('waiting for opponent');
+      }
+    } else if (currentMatch.user2.username === user) {
+      if (currentTurn.user1 === '?') {
+        setTurnStatus('your turn');
+      } else if (currentTurn.user2 && !currentTurn.user1) {
+        setTurnStatus('waiting for opponent');
+      }
+    }
+  }
 
   useEffect(() => {
-    function fetchMatchDetails() {
-      const matches = JSON.parse(localStorage.getItem('matchList'));
-      setMatchList(matches);
-      const match = matches.find(match => match._id === matchId);
+    async function fetchMatchDetails() {
+      const match = await actions.refreshMatch(matchId);
       if (match) {
         setCurrentMatch(match);
         setTurns(match.turns);
+        setPlayer1Player2();
+        defineTurnStatus();
       }
     }
     fetchMatchDetails();
   }, [matchId]);
 
-
-  // once the match is fetched
-  useEffect(() => {
-    function checkUserRole() {
-      if (currentMatch) {
-        if (currentMatch.user1?.username === userConnected?.username) {
-          setOpponent(currentMatch.user2?.username);
-        } else {
-          setOpponent(currentMatch.user1?.username);
-        }
-      }
-    }
-    checkUserRole();
-  }, [currentMatch]);
-
-
+  // Game logic
   function handleSelectChoice(choice) {
-    if (confirmedChoice) {
-      return;
-    }
+    if (turnStatus !== 'your turn') return;
+    if (confirmedChoice) return;
     setSelected(choice === selected ? undefined : choice);
   }
   async function handleGameChoice() {
@@ -59,10 +82,11 @@ export default function MatchView() {
       if (!resp.ok) {
         console.error('playTurn failed: ', JSON.stringify(resp));
         setConfirmedChoice(false);
+      } else {
+        fetchMatchDetails();
       }
     } catch (error) {
       console.error(error);
-      setConfirmedChoice(false);
     }
   }
 
@@ -85,7 +109,7 @@ export default function MatchView() {
   return (
     <div className='matchView-wrapper'>
       <h1>Choose your attack !</h1>
-      <span style={{ margin: '0', padding: '0' }}>Turn no: {turns.length + 1}</span>
+      <span style={{ margin: '4px', padding: '0' }}>Turn no: {turns.length} / Player1: {players.player1} & Player2: {players.player2}</span>
       <div className='game-cards'>
         <div className={`game-card scissors ${selected === 'scissors' ? 'selected' : ''} `} onClick={() => { handleSelectChoice('scissors') }}>
           <p>✂️</p>
@@ -98,23 +122,27 @@ export default function MatchView() {
         </div>
       </div>
       {(selected && !confirmedChoice) && (
-        <button id='confirmChoice' onClick={handleGameChoice}>Attack with {selected} ?</button>
+        <button type='button' id='confirmChoice' onClick={handleGameChoice}>Attack with {selected} ?</button>
       )}
-      {(!selected && !confirmedChoice) && (
-        <button id='noChoice'>Select your move first</button>
+      {(!selected && !confirmedChoice && turnStatus === 'your turn') && (
+        <button type='button' id='noChoice'>Select your move first</button>
       )}
-      {confirmedChoice && (
-        <div className='game-result'>
-          <h2>Waiting for opponent...</h2>
-        </div>
+      {turnStatus !== 'your turn' && (
+        <button type='button' id='noChoice'>It's not your turn</button>
       )}
       <div className='turn-history'>
         <h2>Turns history</h2>
         <ul>
-          {turns.map((turn, index) => (
-            <li key={index}>
-              Tour {index + 1}: {turn.user1} vs {turn.user2}. {whoWins(turn)}
-            </li>
+          {turns.length > 0 && turns.map((turn, index) => (
+            <React.Fragment key={index}>
+              <li>
+                <p style={{ textAlign: 'center' }}>Turn {index + 1}</p>
+                <p>Player 1: {players.player1} played: {turn.user1}</p>
+                <p>Player 2: {players.player2} played: {turn.user2}</p>
+                <p style={{ textAlign: 'center' }}>{whoWins(turn)}</p>
+              </li>
+              {index !== turns.length - 1 && <hr />}
+            </React.Fragment>
           ))}
         </ul>
       </div>

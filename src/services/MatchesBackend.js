@@ -47,3 +47,18 @@ export const playTurn = async (matchId, choice, turnId) => {
     });
     return resp.json();
 }
+
+export const refreshMatch = async (matchId) => {
+    const userConnected = JSON.parse(localStorage.getItem('userConnected'));
+    const token = userConnected.token;
+    const resp = await fetch(`http://fauques.freeboxos.fr:3000/matches/${matchId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).catch((error) => {
+        throw new Error(error);
+    });
+    return resp.json();
+}

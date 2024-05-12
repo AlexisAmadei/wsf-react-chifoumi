@@ -102,3 +102,28 @@ button#noChoice:focus {
 .game-card .fade-out {
     animation: fadeOut 0.5s;
 }
+
+.turn-history {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 18px;
+}
+
+.turn-history h2 {
+    margin: 0;
+}
+
+.turn-history ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.turn-history li {
+    text-align: left;
+}
+
+.turn-history p {
+    margin: 4px;
+}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getMatches, newMatch } from "../services/MatchesBackend";
 import { LuSwords } from "react-icons/lu";
 import './styles/HomePage.css';
