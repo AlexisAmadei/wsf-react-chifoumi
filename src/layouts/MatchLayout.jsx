@@ -6,7 +6,6 @@ const styles = {
   matchLayout: {
     height: '100%',
     width: '100%',
-    marginTop: '200px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
