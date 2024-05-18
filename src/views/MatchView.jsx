@@ -160,6 +160,20 @@ export default function MatchView() {
     }
   }, [turns]);
 
+  function setMatchSSE(matchId) {
+    const jwtToken = userConnected.token;
+    const url = `http://fauques.freeboxos.fr:3000/matches/${matchId}/subscribe?token=${jwtToken}`;
+    const es = new EventSource(url);
+    es.onopen = () => console.log('connection established');
+    es.onerror = () => console.error('error while connecting');
+    es.onmessage = (e) => console.log(">>>>", e.data);
+    return () => es.close();
+  }
+
+  useEffect(() => {
+    setMatchSSE(matchId);
+  }, []);
+
   return (
     <div className={`matchView-wrapper`}>
       {turnStatus === 'your turn' && <h1>Choose your attack !</h1>}
