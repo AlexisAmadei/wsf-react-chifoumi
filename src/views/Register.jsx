@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../contexts/Auth'
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
 import './styles/Register.css'
-import TextInput from '../components/TextInput/TextInput';
+import RegisterForm from '../components/RegisterForm/RegisterForm';
 
 export default function Register() {
   const { actions } = useContext(AuthContext);
@@ -32,31 +31,7 @@ export default function Register() {
   }
   return (
     <div className="register-wrapper">
-      <form onSubmit={handleSubmit}>
-        <p onClick={() => navigate('/')} style={{margin:'0', padding:'0', textAlign:'left', cursor:'pointer', width:'fit-content'}}>&larr; Retour</p>
-        <TextInput
-          type='text'
-          required={true}
-          title="username"
-          name="username"
-          placeholder="Username"
-        />
-        <TextInput
-          type="password"
-          required={true}
-          title="password"
-          name="password"
-          placeholder="Password"
-        />
-        <TextInput
-          type="password"
-          required={true}
-          title="confirmPassword"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-        />
-        <Button type="submit" variant="contained" classes={{ root:'login-button'}}>Register</Button>
-      </form>
+      <RegisterForm handleSubmit={handleSubmit} />
       {error && <p>{error}</p>}
     </div>
   )

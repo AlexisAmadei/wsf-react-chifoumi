@@ -1,14 +1,13 @@
 import './styles/Login.css'
-import TextInput from '../components/TextInput/TextInput';
 
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../contexts/Auth'
 import { useNavigate } from 'react-router-dom'
 
-import { Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ReplayIcon from '@mui/icons-material/Replay';
+import LoginForm from '../components/LoginForm/LoginForm';
 
 export default function Login() {
   const { actions } = useContext(AuthContext);
@@ -61,26 +60,7 @@ export default function Login() {
         </div>
       )}
       {!loading && !isError && (
-      <form onSubmit={handleSubmit}>
-        <p onClick={() => navigate('/')} style={{ margin: '0', padding: '0', textAlign: 'left', cursor: 'pointer', width: 'fit-content', fontSize:'20px' }}>&larr; Retour</p>
-        <TextInput
-          type='text'
-          required={true}
-          title="username"
-          name="username"
-          placeholder="Username"
-          autoComplete={'off'}
-        />
-        <TextInput
-          type="password"
-          required={true}
-          title="password"
-          name="password"
-          placeholder="Password"
-        />
-        <Button type="submit" variant="contained" className='mui-button'
-          classes={{ root: 'login-button' }}>Login</Button>
-      </form>
+      <LoginForm onSubmit={handleSubmit} />
       )}
     </div>
   )
